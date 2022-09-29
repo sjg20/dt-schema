@@ -514,6 +514,11 @@ def fixup_node_props(schema):
     schema['properties'].setdefault('status', True)
     schema['properties'].setdefault('secure-status', True)
     schema['properties'].setdefault('$nodename', True)
+    schema['properties'].setdefault('phase,pre-sram', True)
+    schema['properties'].setdefault('phase,verify', True)
+    schema['properties'].setdefault('phase,pre-ram', True)
+    schema['properties'].setdefault('phase,some-ram', True)
+    schema['properties'].setdefault('phase,all', True)
 
     keys = list()
     if 'properties' in schema:

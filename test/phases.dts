@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: BSD-2-Clause
+// Copyright 2022 Google LLC
+
+// An attempt to provide a device tree to validate
+
+// dt-mk-schema -j test/schemas/ > processed-schema.json
+// dtc -O dtb -o test.dtb test/phases.dts && tools/dt-validate -s processed-schema.json / test.dtb
+// Traceback (most recent call last):
+//   File "/scratch/sglass/cosarm/dt-schema/tools/dt-validate", line 167, in <module>
+//     sg.check_trees(filename, testtree)
+//   File "/scratch/sglass/cosarm/dt-schema/tools/dt-validate", line 122, in check_trees
+//     self.check_subtree(dt, subtree, False, "/", "/", filename)
+//   File "/scratch/sglass/cosarm/dt-schema/tools/dt-validate", line 106, in check_subtree
+//     self.check_node(tree, subtree, disabled, nodename, fullname, filename)
+//   File "/scratch/sglass/cosarm/dt-schema/tools/dt-validate", line 38, in check_node
+//     node['$nodename'] = [ nodename ]
+// TypeError: 'str' object does not support item assignment
+
+/dts-v1/;
+
+/ {
+	some-device {
+		compatible = "vendor,soc1-ip";
+		phase,pre-sram;
+	};
+};
