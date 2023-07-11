@@ -1,0 +1,77 @@
+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+# Copyright 2023 Google LLC
+
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/firmware/layout/entry.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Image entry
+
+maintainers:
+  - Simon Glass <sjg@chromium.org>
+
+description: |
+  The entry node specifies a single entry in the firmware image.
+
+  Entries have a specific type, such as "u-boot" or "atf-bl31". This is provided
+  using compatible = "data,<type>".
+
+  Note: This definition is intended to be hierarchical, so that entries can
+  appear in other entries. Schema for that is TBD.
+
+properties:
+  compatible:
+    $ref: /schemas/types.yaml#/definitions/string
+
+  offset:
+    $ref: /schemas/types.yaml#/definitions/uint32
+    description: |
+      Provides the offset of this entry from the start of its parent section.
+
+      This may be omitted in the description provided by Binman, in which case
+      the value is calculated as part of image packing.
+
+  size:
+    $ref: /schemas/types.yaml#/definitions/uint32
+    description: |
+      Provides the size of this entry in bytes.
+
+      This may be omitted in the description provided by Binman, in which case
+      the value is calculated as part of image packing.
+
+  reg:
+    description: |
+      Defines the offset and size of this entry, with reference to its parent
+      image / section.
+
+      Note This is typically omitted in the description provided to Binman,
+      since the value is calculated as part of image packing. Separate
+      properties are provided for the size and offset of an entry, so that it is
+      easy to specify none, one or both. The `reg` property is the only one that
+      needs to be looked at once the image has been built.
+
+required:
+  - compatible
+
+additionalProperties: true
+
+examples:
+  - |
+    firmware {
+      image: image {
+        compatible = "data,image";
+        #address-cells = <1>;
+        $size-cells = <1>;
+
+        u-boot@0 {
+          compatible = "data,u-boot";
+          reg = <0 0xa0000>;
+        };
+
+        atf-bl31@0x100000 {
+          compatible = "data,atf-bl31";
+          reg = <0x100000 0x20000>;
+        };
+      };
+    };
