@@ -1,0 +1,71 @@
+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/reserved-memory/common-reserved.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Common memory reservations
+
+description: |
+  Specifies that the reserved memory region can be used for the purpose
+  indicated by its compatible string.
+
+  Clients may reuse this reserved memory if they understand what it is for,
+  subject to the notes below.
+
+maintainers:
+  - Simon Glass <sjg@chromium.org>
+
+allOf:
+  - $ref: reserved-memory.yaml
+
+properties:
+  compatible:
+    description: |
+      This describes some common memory reservations:
+
+         acpi-reclaim: Contains ACPI tables; memory may be reclaimed when the
+           tables are no-longer needed
+         acpi-nvs: Contains ACPI Non-volatile-storage data; memory may be
+           reclaimed when the tables are no-longer needed
+         boot-code: Contains code used for booting; memory may be reclaimed by
+           the OS when it is running
+         boot-code: Contains data used for booting; memory may be reclaimed by
+           the OS when it is running
+         runtime-code: Contains code used for interacting with the system when
+           running; memory may be reclaimed if this code is not called
+         runtime-data: Contains data used for interacting with the system when
+           running; memory may be reclaimed if the runtime code is not used
+    enum:
+      - acpi-reclaim
+      - acpi-nvs
+      - boot-code
+      - boot-data
+      - runtime-code
+      - runtime-data
+
+  reg:
+    description: region of memory that is reserved for the purpose indicated
+      by the compatible string.
+
+required:
+  - reg
+
+unevaluatedProperties: false
+
+examples:
+  - |
+    reserved-memory {
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        reserved@12340000 {
+            compatible = "boot-code";
+            reg = <0x12340000 0x00800000>;
+        };
+
+        reserved@43210000 {
+            compatible = "boot-data";
+            reg = <0x43210000 0x00800000>;
+        };
+    };
