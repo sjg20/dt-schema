@@ -118,6 +118,25 @@ Example:
 dt-check-compatible -s processed-schema.json vendor,a-compatible
 ```
 
+## Testing your changes
+
+Once you add or change schema, you should test it locally. This assumes that
+your system is set up so that 'python' runs Python 3.
+
+First make sure you don't have any existing dt-schema in your system as this
+may interfere:
+
+```
+sudo apt-get remove dt-schema
+pip remove dt-schema
+```
+
+Then, to validate, use:
+
+```
+PYTHONPATH=. test/test-dt-validate.py
+```
+
 ## Installing
 The project and its dependencies can be installed with pip:
 
