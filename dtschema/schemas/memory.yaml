@@ -34,7 +34,37 @@ patternProperties:
         description:
           For the purpose of identification, each NUMA node is associated with
           a unique token known as a node id.
+      ecc-detection:
+        $ref: /schemas/types.yaml#/definitions/string
+        enum:
+          - none
+          - single-bit
+          - multi-bit
+        description: |
+          If present, this inidcates the type of memory errors which can be
+          detected and reported by the Error-Correction Code (ECC) memory
+          subsystem:
 
+            none       - No error detection is possible
+            single-bit - Detects and reports single-bit ECC errors
+            multi-bit  - Detects and reports multiple-bit ECC errors
+
+          If not present, this is equivalent to 'none'.
+      ecc-correction:
+        $ref: /schemas/types.yaml#/definitions/string
+        enum:
+          - none
+          - single-bit
+          - multi-bit
+        description: |
+          If present, this inidcates the type of memory errors which can be
+          corrected by the Error-Correction Code (ECC) memory subsystem:
+
+            none       - No error correction is possible
+            single-bit - Corrects single-bit ECC errors
+            multi-bit  - Corrects multiple-bit ECC errors
+
+          If not present, this is equivalent to 'none'.
 
     required:
       - device_type
